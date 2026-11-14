@@ -13,6 +13,7 @@ public sealed class Product
     public string? Description { get; set; }
     public decimal Price { get; set; }
     public required ProductCategory Category { get; set; }
+    public required ProductSubcategory Subcategory { get; set; }
     public IList<string> Images { get; } = [];
     public decimal? SalePrice { get; set; }
 

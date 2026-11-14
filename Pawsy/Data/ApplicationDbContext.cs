@@ -8,5 +8,6 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     : IdentityDbContext(options)
 {
     public DbSet<ProductCategory>? ProductCategories => Set<ProductCategory>();
+    public DbSet<ProductSubcategory>? ProductSubcategories => Set<ProductSubcategory>();
     public DbSet<Product>? Products => Set<Product>();
 }

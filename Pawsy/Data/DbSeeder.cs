@@ -10,6 +10,13 @@ public static class DbSeeder
         if (!dbContext.Set<ProductCategory>().Any())
             SeedProductCategory(dbContext);
 
+        dbContext.SaveChanges();
+
+        if (!dbContext.Set<ProductSubcategory>().Any())
+            SeedProductSubcategory(dbContext);
+
+        dbContext.SaveChanges();
+
         if (!dbContext.Set<Product>().Any())
             SeedProduct(dbContext);
 
@@ -24,6 +31,13 @@ public static class DbSeeder
     {
         if (!await dbContext.Set<ProductCategory>().AnyAsync(cancellationToken))
             SeedProductCategory(dbContext);
+
+        await dbContext.SaveChangesAsync(cancellationToken);
+
+        if (!await dbContext.Set<ProductSubcategory>().AnyAsync(cancellationToken))
+            SeedProductSubcategory(dbContext);
+
+        await dbContext.SaveChangesAsync(cancellationToken);
 
         if (!await dbContext.Set<Product>().AnyAsync(cancellationToken))
             SeedProduct(dbContext);
@@ -45,9 +59,7 @@ public static class DbSeeder
 
     private static void SeedProduct(DbContext dbContext)
     {
-        var dogCategory = dbContext.Set<ProductCategory>().FirstOrDefault((i) => i.Name == "pies");
-
-        ArgumentNullException.ThrowIfNull(dogCategory);
+        var cat = dbContext.Set<ProductCategory>().First((i) => i.Name == "kot");
 
         dbContext
             .Set<Product>()
@@ -56,8 +68,25 @@ public static class DbSeeder
                 {
                     Name = "Royal Canin Medium Adult",
                     Price = 39.99M,
-                    Category = dogCategory,
+                    Category = cat,
+                    Subcategory = dbContext
+                        .Set<ProductSubcategory>()
+                        .First((sb) => sb.Name == "Karmy"),
                 }
+            );
+    }
+
+    private static void SeedProductSubcategory(DbContext dbContext)
+    {
+        var catCategory = dbContext.Set<ProductCategory>().First((i) => i.Name == "kot");
+        dbContext
+            .Set<ProductSubcategory>()
+            .AddRange(
+                new ProductSubcategory { Name = "Drapaki", ParentCategory = catCategory },
+                new ProductSubcategory { Name = "Szelki", ParentCategory = catCategory },
+                new ProductSubcategory { Name = "Zabawki", ParentCategory = catCategory },
+                new ProductSubcategory { Name = "Legowiska", ParentCategory = catCategory },
+                new ProductSubcategory { Name = "Karmy", ParentCategory = catCategory }
             );
     }
 }
