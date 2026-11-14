@@ -1,31 +1,138 @@
-html {
-  font-size: 14px;
-}
+@import url('https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap');
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+*{
+  box-sizing: border-box;
+  outline: none !important;
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-optical-sizing: auto;
 }
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+:root {
+  --bg-color: #fff;
+  --text-color: #000;
+  --icon-button-hover: #EBEBEB;
+  --transition: .13s ease-in-out;
+  --primary-color: #FFA502;
+  --primary-color-hover:rgb(211, 137, 1);
 }
 
 body {
-  margin-bottom: 60px;
+  margin: 0;
+  padding: 0;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+.logo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--text-color);
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 700;
+  font-size: 1.3em;
+}
+.logo-link img {
+  height: 32px;
+}
+
+.logo-link .site-name {
+  display: inline-block;
+}
+
+.main-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background-color: var(--bg-color);
+}
+
+.main-header .content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.icon-button {
+  width: calc(1.5em + 12px);
+  height: calc(1.5em + 12px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color var(--transition);
+  background-color: var(--bg-color);
+}
+.icon-button:hover, .icon-button:focus {
+  background-color: var(--icon-button-hover);
+}
+
+.icon-button .icon {
+  display: inline-block;
+}
+
+.mobile-nav {
+  position: fixed;
+  inset: 0;
+  background-color: var(--bg-color);
+  transform: translateX(100%);
+  transition: transform var(--transition);
+}
+
+.mobile-nav .content {
+  display: flex;
+  flex-flow: column;
+  gap: 48px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.mobile-nav .close-menu-area {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.mobile-nav nav {
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  gap: 24px;
+}
+
+.mobile-nav .nav-elem {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--text-color);
+  width: 100%;
+  transition: color var(--transition);
+}
+
+.mobile-nav .nav-elem:hover, .mobile-nav .nav-elem:focus {
+  color: var(--primary-color-hover);
+}
+
+.mobile-nav .nav-elem.active {
+  color: var(--primary-color);
+}
+
+@media screen and (min-width: 800px) {
 }
