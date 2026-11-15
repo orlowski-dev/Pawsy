@@ -1,51 +1,105 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Pawsy</title>
     <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Pawsy.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/icons.css" asp-append-version="true" />
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Pawsy</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - Pawsy - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+<body>
+    <header class="main-header">
+        <div class="content">
+            <div>
+                <a asp-controller="Home" asp-action="Index" class="logo-link" title="Przejdź do strony głównej">
+                    <img src="~/icons/logo.svg" alt="Pawsy logo" aria-hidden="true">
+                    <span class="site-name" aria-hidden="true">Pawsy</span>
+                </a>
+            </div>
+            <div class="right">
+                <div class="nav-header">
+                    <div class="content">
+                        <div class="close-menu-area">
+                            <button class="icon-button" title="Zamknij menu" id="close-mobile-menu-btn">
+                                <span class="sr-only">Zamknij menu</span>
+                                <span class="icon lucide--letter-x" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                        <nav>
+                            <a id="home-elem" asp-controller="Home" asp-action="Index" class="nav-elem">
+                                <span class="icon lucide--home" aria-hidden="true"></span>
+                                <span>strona główna</span>
+                            </a>
+                            <a asp-controller="Home" asp-action="Index" class="nav-elem">
+                                <span class="icon lucide--dog" aria-hidden="true"></span>
+                                <span>pies</span>
+                            </a>
+                            <a asp-controller="Home" asp-action="Index" class="nav-elem">
+                                <span class="icon lucide--cat" aria-hidden="true"></span>
+                                <span>kot</span>
+                            </a>
+                            <a asp-controller="Home" asp-action="Index" class="nav-elem">
+                                <span class="icon lucide--bird" aria-hidden="true"></span>
+                                <span>ptaki</span>
+                            </a>
+                            <a asp-controller="Home" asp-action="Index" class="nav-elem">
+                                <span class="icon lucide--fish" aria-hidden="true"></span>
+                                <span>rybki</span>
+                            </a>
+                            <a asp-controller="Home" asp-action="Index" class="nav-elem active">
+                                <span class="icon lucide--percent" aria-hidden="true"></span>
+                                <span>promocje</span>
+                            </a>
+                            <a asp-controller="Home" asp-action="Index" class="nav-elem">
+                                <span class="icon akar-icons--person" aria-hidden="true"></span>
+                                <span class="m-only">profil</span>
+                            </a>
+                            
+                            <a asp-controller="Home" asp-action="Index" class="nav-elem">
+                                <span class="icon akar-icons--heart" aria-hidden="true"></span>
+                                <span class="m-only">ulubione</span>
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+                <label for="site-search" class="label-search">Wyszukaj:</label>
+                <input type="search" id="site-search" name="search" </input>
+                <button class="icon-button" id="search-btn">
+                    <span class="sr-only">Wyszukaj w sklepie</span>
+                    <span class="icon lucide--search" aria-hidden="true"></span>
+                </button>
+                <a asp-controller="Home" asp-action="Index" class="icon-button">
+                    <span class="icon akar-icons--cart" aria-hidden="true"></span>
+                    <span class="sr-only">koszyk</span>
+                </a>
+                <button class="icon-button" id="open-mobile-menu-btn">
+                    <span class="sr-only">Otwórz menu</span>
+                    <span class="icon lucide--menu" aria-hidden="true"></span>
+                </button>
+            </div>
         </div>
-    </footer>
+        
+    </header>
+    <main>
+        <div class="hero-image">
+            <div class="hero-text">
+                <h1>Karma i akcesoria<br>dla Twojego pupila</>
+                </h1>
+                <h2>Wszystko czego potrzebuje Twój pies i kot<br>w jednym miejscu</>
+                </h2>
+                <button class="hero-btn btn">Zobacz produkty</button>
+    
+            </div>
+        </div>
+        
+        @RenderBody()
+    </main>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    <script src="~/js/nav-header.js"></script>
 </body>
+
 </html>
