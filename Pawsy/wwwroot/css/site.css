@@ -1,31 +1,263 @@
-html {
-  font-size: 14px;
-}
+@import url("https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap");
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+:root {
+  --bg-color: #fff;
+  --text-color: #000;
+  --icon-button-hover: #ebebeb;
+  --transition: 0.13s ease-in-out;
+  --primary-color: #ffa502;
+  --primary-color-hover: rgb(211, 137, 1);
+  --secondary-font: "Bricolage Grotesque";
 }
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+* {
+  box-sizing: border-box;
+  outline: none !important;
+  font-family: "Albert Sans", sans-serif;
+  font-optical-sizing: auto;
 }
 
 body {
-  margin-bottom: 60px;
+  margin: 0;
+  padding: 0;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+.logo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--text-color);
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 700;
+  font-size: 1.3em;
 }
+
+.logo-link img {
+  height: 32px;
+}
+
+.logo-link .site-name {
+  display: inline-block;
+}
+
+.main-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background-color: var(--bg-color);
+}
+
+.main-header .content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.icon-button {
+  width: calc(1.5em + 12px);
+  height: calc(1.5em + 12px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color var(--transition);
+  background-color: var(--bg-color);
+  text-decoration: none;
+  color: var(--text-color);
+  font-size: 1em;
+}
+
+.icon-button:hover,
+.icon-button:focus {
+  background-color: var(--icon-button-hover);
+}
+
+.icon-button .icon {
+  display: inline-block;
+}
+
+.nav-header {
+  position: fixed;
+  inset: 0;
+  background-color: var(--bg-color);
+  transform: translateX(100%);
+  transition: transform var(--transition);
+  z-index: 11;
+}
+
+.nav-header .content {
+  display: flex;
+  flex-flow: column;
+  gap: 48px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.nav-header .close-menu-area {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.nav-header nav {
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  gap: 24px;
+}
+
+.nav-header .nav-elem {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--text-color);
+  width: 100%;
+  transition: color var(--transition);
+}
+
+.nav-header .nav-elem:hover,
+.nav-header .nav-elem:focus {
+  color: var(--primary-color-hover);
+}
+
+.nav-header .nav-elem.active {
+  color: var(--primary-color);
+}
+.label-search {
+  display: none;
+}
+#site-search {
+  display: none;
+}
+
+.hero-image {
+  background-image: url("../images/hero-image-m.png");
+  height: calc(100dvh - 60px);
+  background-repeat: no-repeat;
+  background-position: bottom center;
+}
+
+.hero-text {
+  text-align: center;
+  padding: 10px 20px;
+}
+
+.hero-image .hero-text h1 {
+  display: inline-block;
+  font-family: var(--secondary-font);
+}
+
+.hero-text h2 {
+  font-size: 1em;
+  font-weight: 400;
+}
+
+.btn {
+  display: none;
+  background-color: var(--primary-color);
+  color: var(--bg-color);
+  font-family: "Albert Sans", sans-serif;
+  font-weight: 500;
+  border: none;
+  border-radius: 999px;
+}
+
+@media screen and (min-width: 800px) {
+  #open-mobile-menu-btn,
+  .nav-header .close-menu-area,
+  #home-elem {
+    display: none;
+  }
+
+  .nav-header {
+    /* inset: unset; */
+    position: unset;
+    background-color: var(--bg-color);
+    transform: unset;
+    z-index: 11;
+  }
+
+  .nav-header .content {
+    display: flex;
+    flex-flow: row-reverse;
+  }
+  .nav-header nav {
+    display: flex;
+    flex-flow: row;
+    gap: 24px;
+  }
+
+  .main-header .content .right {
+    display: flex;
+    align-items: center;
+  }
+  .label-search {
+    display: block;
+  }
+  #site-search {
+    display: block;
+    width: 10rem;
+    padding: 0 10px;
+    margin: 0 10px;
+    border: #333 solid 1px;
+  }
+  #site-search:hover {
+    background-color: #fff;
+  }
+  .hero-image {
+    margin: 0 auto;
+    background-image: url("../images/hero-image-md.png");
+    max-width: 1200px;
+    height: 50vh;
+    background-position: center;
+
+    position: relative;
+  }
+
+  .m-only {
+    display: none;
+  }
+
+  .hero-text {
+    padding-left: 3em;
+    text-align: start;
+  }
+  .hero-btn {
+    display: block;
+    margin-top: 40px;
+  }
+  .hero-text h1 {
+    font-size: 2.2em;
+  }
+  .hero-text h2 {
+    font-weight: 400;
+    font-size: 1.2em;
+  }
+
+  .hero-btn {
+    padding: 10px 30px;
+    font-size: 20px;
+    font-size: 1.2em;
+  }
+}
+
+/* //dolozyc do nava gornego ikony z linkami z dolnego nava z kategoriami, ulubinymi i z profilem */
