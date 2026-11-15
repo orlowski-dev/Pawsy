@@ -1,0 +1,26 @@
+:root {
+  --input-border-color: rgba(0, 0, 0, 0.4);
+}
+
+.auth-container {
+  height: calc(100dvh - 60px);
+}
+
+.auth-container > .content {
+  max-width: 400px;
+  margin: 0 auto;
+  margin-top: 48px;
+  padding: 24px;
+}
+
+.auth-container > .content > .form-area > form {
+  display: flex;
+  flex-flow: column;
+  gap: 12px;
+}
+
+.custom-input {
+  width: 100%;
+  border: 1px solid var(--input-border-color);
+  padding: 12px;
+}
