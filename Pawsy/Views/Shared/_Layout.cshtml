@@ -60,13 +60,11 @@
                                 <span class="m-only">profil</span>
                             </a>
                             
-                            <a asp-controller="Favorites" asp-action="Index" class="nav-elem shop-header-link"
-                               aria-label="Przejdź do ulubionych">
+                            <<a asp-controller="Favorites" asp-action="Index" class="nav-elem favorites-nav-link"
+                                aria-label="Przejdź do ulubionych">
 
                                 <span class="icon akar-icons--heart" aria-hidden="true"></span>
-
                                 <span class="m-only">ulubione</span>
-
                                 <span class="shop-header-count" id="favorites-header-count" hidden>0</span>
                             </a>
                         </nav>
@@ -78,11 +76,10 @@
                     <span class="sr-only">Wyszukaj w sklepie</span>
                     <span class="icon lucide--search" aria-hidden="true"></span>
                 </button>
-                <a asp-controller="Cart" asp-action="Index" class="icon-button shop-header-link"
+                <a asp-controller="Cart" asp-action="Index" class="icon-button cart-nav-link"
                    aria-label="Przejdź do koszyka">
 
                     <span class="icon akar-icons--cart" aria-hidden="true"></span>
-
                     <span class="shop-header-count" id="cart-header-count" hidden>0</span>
                 </a>
                 <button class="icon-button" id="open-mobile-menu-btn">
