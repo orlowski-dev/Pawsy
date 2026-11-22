@@ -5,10 +5,14 @@ using Pawsy.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString =
-    builder.Configuration.GetConnectionString("DefaultConnection")
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connectionString));
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options
+        .UseSqlite(connectionString)
+        .UseSeeding(DbSeeder.Seed)
+        .UseAsyncSeeding(DbSeeder.SeedAsync)
+);
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder
@@ -45,6 +49,13 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
+app.MapControllerRoute(
+        name: "product",
+        pattern: "Product/{action=Index}",
+        new { controller = "Product" }
+    )
+    .WithStaticAssets();
 
 app.MapControllerRoute(
         name: "authLogin",

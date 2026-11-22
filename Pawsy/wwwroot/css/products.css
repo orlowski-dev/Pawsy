@@ -1,0 +1,531 @@
+/* =====================================
+   KATALOG PRODUKTÓW - PAWSY
+===================================== */
+
+.catalog {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 36px 24px 80px;
+  font-family: "Albert Sans", sans-serif;
+}
+
+/* Nagłówek */
+
+.catalog-breadcrumb {
+  font-size: 13px;
+  color: #777;
+  margin-bottom: 24px;
+}
+
+.catalog-heading h1 {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 36px;
+  font-weight: 800;
+  margin: 0 0 8px;
+}
+
+.catalog-heading > div > p:last-child {
+  color: #666;
+  margin: 0;
+}
+
+/* Układ katalogu */
+
+.catalog-layout {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 32px;
+  margin-top: 40px;
+}
+
+.catalog-content {
+  min-width: 0;
+}
+
+/* Filtry */
+
+.catalog-filters {
+  border: 1px solid #eaeaea;
+  border-radius: 12px;
+  padding: 24px;
+  align-self: start;
+}
+
+.catalog-filters h2 {
+  font-size: 20px;
+  margin: 0 0 24px;
+}
+
+.filter-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.filter-section h3 {
+  font-size: 15px;
+  margin: 0 0 4px;
+}
+
+.filter-section label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.filter-section input {
+  accent-color: #ff6a00;
+}
+
+/* Sortowanie */
+
+.catalog-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  font-size: 14px;
+}
+
+.sort-control {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sort-control select {
+  padding: 10px 14px;
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  background: #fff;
+  font: inherit;
+}
+
+/* =====================================
+   SIATKA PRODUKTÓW
+===================================== */
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+/* Karta */
+
+.product-card {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 1px solid #eaeaea;
+  border-radius: 14px;
+  overflow: hidden;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
+}
+
+/* Zdjęcie produktu */
+
+.product-image {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow: hidden;
+}
+
+.product-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.25s ease;
+}
+
+.product-card:hover .product-image img {
+  transform: scale(1.05);
+}
+
+/* Ulubione */
+
+.favorite-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border: 1px solid #eaeaea;
+  border-radius: 50%;
+  font-size: 20px;
+  color: #111;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.favorite-btn:hover {
+  color: #ff6a00;
+}
+
+/* Informacje o produkcie */
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 18px;
+}
+
+.product-category {
+  color: #777;
+  font-size: 12px;
+  margin: 0 0 8px;
+}
+
+.product-name {
+  font-family: "Albert Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4;
+  margin: 0 0 20px;
+}
+
+/* Cena i koszyk */
+
+.product-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.product-price {
+  font-size: 21px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.add-to-cart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 9px;
+  background: #ff6a00;
+  color: #ffffff;
+  font-size: 21px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.add-to-cart:hover {
+  background: #e65f00;
+}
+
+.empty-products {
+  grid-column: 1 / -1;
+  padding: 40px;
+  text-align: center;
+  color: #777;
+}
+
+.product-pricing {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.old-price {
+  color: #888;
+  font-size: 13px;
+  text-decoration: line-through;
+}
+
+.sale-price {
+  color: #ff6a00;
+  font-size: 21px;
+  font-weight: 800;
+}
+
+/* Ukrywanie produktów */
+
+.product-card[hidden],
+.empty-products[hidden] {
+  display: none !important;
+}
+
+/* Filtry */
+
+.catalog-filters fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+
+.filter-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.filter-section legend,
+.filter-section > label:first-child {
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+
+.filter-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  text-transform: capitalize;
+}
+
+.filter-option input {
+  accent-color: #ff6a00;
+  width: 16px;
+  height: 16px;
+}
+
+#max-price {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1px solid #e7e7e7;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.clear-filters {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ff6a00;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #ff6a00;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.clear-filters:hover {
+  background: #fff1e7;
+}
+
+/* Promocje */
+
+.sale-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 6px 11px;
+  background: #ff6a00;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 20px;
+}
+
+.product-pricing {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.old-price {
+  color: #888;
+  font-size: 13px;
+  text-decoration: line-through;
+}
+
+.sale-price {
+  color: #ff6a00;
+  font-size: 21px;
+  font-weight: 800;
+}
+
+/* Nieaktywny koszyk */
+
+.add-to-cart:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Brak wyników */
+
+.empty-products {
+  margin-top: 28px;
+  padding: 32px;
+  text-align: center;
+  background: #f5f5f5;
+  border-radius: 12px;
+  color: #666;
+}
+
+/* Przycisk ulubionych */
+
+.favorite-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 40px;
+  height: 40px;
+
+  border: 1px solid #eaeaea;
+  border-radius: 50%;
+  background: #ffffff;
+
+  color: #111111;
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease;
+
+  z-index: 2;
+}
+
+.favorite-btn:hover {
+  background: #fff1e7;
+  transform: scale(1.07);
+}
+
+.favorite-heart {
+  fill: transparent;
+  stroke: currentColor;
+
+  transition:
+    fill 0.2s ease,
+    stroke 0.2s ease;
+}
+
+/* Produkt dodany do ulubionych */
+
+.favorite-btn.is-favorite {
+  color: #ff6a00;
+}
+
+.favorite-btn.is-favorite .favorite-heart {
+  fill: #ff6a00;
+  stroke: #ff6a00;
+}
+
+.favorite-btn:focus-visible {
+  outline: 2px solid #ff6a00;
+  outline-offset: 3px;
+}
+
+.filter-section fieldset {
+  border: none;
+}
+
+.filter-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.filter-option input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  accent-color: #ff6a00;
+}
+
+.product-card[hidden],
+.empty-products[hidden] {
+  display: none !important;
+}
+
+/* =====================================
+   RESPONSYWNOŚĆ
+===================================== */
+
+@media (max-width: 1100px) {
+  .catalog-layout {
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .catalog {
+    padding: 24px 16px 60px;
+  }
+
+  .catalog-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .catalog-heading h1 {
+    font-size: 30px;
+  }
+
+  .catalog-filters {
+    padding: 16px;
+  }
+
+  .filter-section {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .filter-section h3 {
+    grid-column: 1 / -1;
+  }
+
+  .product-info {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .catalog-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .product-image {
+    padding: 32px;
+  }
+}
