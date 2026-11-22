@@ -3,10 +3,19 @@
 @{
     ViewData["Title"] = "Katalog produktów";
 
-    var products = Model?.ToList() ?? new List<Pawsy.Models.Product>();
+    var selectedCategory = Context.Request.Query["category"]
+        .ToString()
+        .Trim()
+        .ToLowerInvariant();
 
-    var categories = products
-        .Select(p => p.Category.Name)
+    var products = (Model ?? Enumerable.Empty<Pawsy.Models.Product>())
+        .Where(p =>
+            string.IsNullOrEmpty(selectedCategory) ||
+            p.Category.Name.ToLower() == selectedCategory)
+        .ToList();
+
+    var subcategories = products
+        .Select(p => p.Subcategory.Name)
         .Distinct()
         .OrderBy(name => name)
         .ToList();
@@ -19,29 +28,47 @@
     <div class="catalog-heading">
         <p class="catalog-breadcrumb">
             Strona główna / Produkty
+            @if (!string.IsNullOrEmpty(selectedCategory))
+            {
+                <span> / @selectedCategory</span>
+            }
         </p>
-        <h1>Wszystko dla Twojego pupila</h1>
+
+        <h1>
+            @if (string.IsNullOrEmpty(selectedCategory))
+            {
+                <text>Wszystko dla Twojego pupila</text>
+            }
+            else
+            {
+                <text>Produkty: @selectedCategory</text>
+            }
+        </h1>
+
         <p>Odkryj karmy, zabawki i akcesoria.</p>
     </div>
 
     <div class="catalog-layout">
 
+        
         <aside class="catalog-filters">
+
             <h2>Filtruj produkty</h2>
 
             <fieldset class="filter-section">
-                <legend>Kategoria</legend>
+                <legend>Podkategorie</legend>
 
                 <label class="filter-option">
-                    <input type="radio" name="category" value="all" checked />
-                    Wszystkie
+                    <input type="checkbox" id="all-subcategories" checked />
+                    Wszystkie podkategorie
                 </label>
 
-                @foreach (var category in categories)
+                @foreach (var subcategory in subcategories)
                 {
                     <label class="filter-option">
-                        <input type="radio" name="category" value="@category" />
-                        @category
+                        <input type="checkbox" name="subcategory" value="@subcategory" />
+
+                        @subcategory
                     </label>
                 }
             </fieldset>
@@ -54,10 +81,12 @@
                 <input type="number" id="max-price" min="0" step="1" placeholder="np. 150" />
             </div>
 
-            <button id="clear-filters" class="clear-filters" type="button">
+            <button type="button" id="clear-filters" class="clear-filters">
                 Wyczyść filtry
             </button>
+
         </aside>
+
 
         <div class="catalog-content">
 
@@ -92,9 +121,12 @@
                         ? product.SalePrice!.Value
                         : product.Price;
 
-                    <article class="product-card" data-category="@product.Category.Name"
+                    
+                    <article class="product-card" data-product-id="@product.Id" data-category="@product.Category.Name"
+                             data-subcategory="@product.Subcategory.Name"
                              data-price="@price.ToString(System.Globalization.CultureInfo.InvariantCulture)"
                              data-name="@product.Name">
+
 
                         <div class="product-image">
 

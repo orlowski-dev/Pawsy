@@ -1,49 +1,78 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // ==========================================
+  // FILTROWANIE I SORTOWANIE PRODUKTÓW
+  // ==========================================
+
   const grid = document.querySelector("#products-grid");
 
   if (!grid) return;
 
   const cards = [...grid.querySelectorAll(".product-card")];
 
-  const categoryInputs = document.querySelectorAll('input[name="category"]');
+  const subcategoryInputs = [
+    ...document.querySelectorAll('input[name="subcategory"]'),
+  ];
 
+  const allSubcategories = document.querySelector("#all-subcategories");
   const maxPriceInput = document.querySelector("#max-price");
   const sortSelect = document.querySelector("#sort-products");
   const clearButton = document.querySelector("#clear-filters");
   const countLabel = document.querySelector("#product-count");
   const emptyMessage = document.querySelector("#empty-products");
 
+  // ==========================================
+  // FILTROWANIE
+  // ==========================================
+
   function updateCatalog() {
-    const selectedCategory =
-      document.querySelector('input[name="category"]:checked')?.value ?? "all";
+    const selectedSubcategories = subcategoryInputs
+      .filter((input) => input.checked)
+      .map((input) => input.value);
+
+    const showAll = selectedSubcategories.length === 0;
+
+    if (allSubcategories) {
+      allSubcategories.checked = showAll;
+    }
 
     const maxPrice =
-      maxPriceInput.value === "" ? Infinity : Number(maxPriceInput.value);
+      !maxPriceInput || maxPriceInput.value === ""
+        ? Infinity
+        : Number(maxPriceInput.value);
 
     let visibleCount = 0;
 
     cards.forEach((card) => {
-      const category = card.dataset.category;
+      const subcategory = card.dataset.subcategory;
       const price = Number(card.dataset.price);
 
-      const matchesCategory =
-        selectedCategory === "all" || category === selectedCategory;
+      const matchesSubcategory =
+        showAll || selectedSubcategories.includes(subcategory);
 
       const matchesPrice = price <= maxPrice;
 
-      const visible = matchesCategory && matchesPrice;
+      const visible = matchesSubcategory && matchesPrice;
 
       card.hidden = !visible;
 
       if (visible) visibleCount++;
     });
 
-    countLabel.textContent = `${visibleCount} produktów`;
-    emptyMessage.hidden = visibleCount > 0;
+    if (countLabel) {
+      countLabel.textContent = `${visibleCount} produktów`;
+    }
+
+    if (emptyMessage) {
+      emptyMessage.hidden = visibleCount > 0;
+    }
   }
 
+  // ==========================================
+  // SORTOWANIE
+  // ==========================================
+
   function sortProducts() {
-    const sort = sortSelect.value;
+    const sort = sortSelect?.value ?? "default";
 
     const sortedCards = [...cards];
 
@@ -65,98 +94,135 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     }
 
-    if (sort === "default") {
-      sortedCards.splice(0, sortedCards.length, ...cards);
-    }
-
     sortedCards.forEach((card) => grid.appendChild(card));
   }
 
-  categoryInputs.forEach((input) => {
+  // ==========================================
+  // OBSŁUGA PODKATEGORII
+  // ==========================================
+
+  subcategoryInputs.forEach((input) => {
     input.addEventListener("change", updateCatalog);
   });
 
-  maxPriceInput.addEventListener("input", updateCatalog);
+  if (allSubcategories) {
+    allSubcategories.addEventListener("change", () => {
+      if (allSubcategories.checked) {
+        subcategoryInputs.forEach((input) => {
+          input.checked = false;
+        });
+      } else {
+        // Jeśli nie wybrano podkategorii,
+        // wszystkie pozostają aktywne.
+        if (!subcategoryInputs.some((input) => input.checked)) {
+          allSubcategories.checked = true;
+        }
+      }
 
-  sortSelect.addEventListener("change", sortProducts);
+      updateCatalog();
+    });
+  }
 
-  clearButton.addEventListener("click", () => {
-    const allCategory = document.querySelector(
-      'input[name="category"][value="all"]',
-    );
+  // Filtrowanie po cenie
+  maxPriceInput?.addEventListener("input", updateCatalog);
 
-    if (allCategory) allCategory.checked = true;
+  // Sortowanie
+  sortSelect?.addEventListener("change", sortProducts);
 
-    maxPriceInput.value = "";
-    sortSelect.value = "default";
+  // ==========================================
+  // RESET FILTRÓW
+  // ==========================================
+
+  clearButton?.addEventListener("click", () => {
+    subcategoryInputs.forEach((input) => {
+      input.checked = false;
+    });
+
+    if (allSubcategories) {
+      allSubcategories.checked = true;
+    }
+
+    if (maxPriceInput) {
+      maxPriceInput.value = "";
+    }
+
+    if (sortSelect) {
+      sortSelect.value = "default";
+    }
 
     sortProducts();
     updateCatalog();
   });
 
-  updateCatalog();
-});
+  // ==========================================
+  // ULUBIONE
+  // ==========================================
 
-// ULUBIONE
+  const storageKey = "pawsy-favorites";
 
-const storageKey = "pawsy-favorites";
-
-function loadFavorites() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(storageKey) ?? "[]");
-
-    return new Set(Array.isArray(saved) ? saved : []);
-  } catch {
-    return new Set();
-  }
-}
-
-const favorites = loadFavorites();
-
-function updateFavoriteButton(button) {
-  const productId = button.dataset.productId;
-  const isFavorite = favorites.has(productId);
-
-  const productName =
-    button
-      .closest(".product-card")
-      ?.querySelector(".product-name")
-      ?.textContent?.trim() ?? "produkt";
-
-  button.classList.toggle("is-favorite", isFavorite);
-
-  button.setAttribute("aria-pressed", String(isFavorite));
-
-  button.setAttribute(
-    "aria-label",
-    isFavorite
-      ? `Usuń ${productName} z ulubionych`
-      : `Dodaj ${productName} do ulubionych`,
-  );
-
-  button.title = isFavorite ? "Usuń z ulubionych" : "Dodaj do ulubionych";
-}
-
-document.querySelectorAll(".favorite-btn").forEach((button) => {
-  updateFavoriteButton(button);
-
-  button.addEventListener("click", () => {
-    const productId = button.dataset.productId;
-
-    if (!productId) return;
-
-    if (favorites.has(productId)) {
-      favorites.delete(productId);
-    } else {
-      favorites.add(productId);
-    }
-
+  function loadFavorites() {
     try {
-      localStorage.setItem(storageKey, JSON.stringify([...favorites]));
-    } catch (error) {
-      console.warn("Nie udało się zapisać ulubionych.", error);
-    }
+      const saved = JSON.parse(localStorage.getItem(storageKey) ?? "[]");
 
+      return new Set(Array.isArray(saved) ? saved : []);
+    } catch {
+      return new Set();
+    }
+  }
+
+  const favorites = loadFavorites();
+
+  function updateFavoriteButton(button) {
+    const productId = button.dataset.productId;
+    const isFavorite = favorites.has(productId);
+
+    const productName =
+      button
+        .closest(".product-card")
+        ?.querySelector(".product-name")
+        ?.textContent?.trim() ?? "produkt";
+
+    button.classList.toggle("is-favorite", isFavorite);
+
+    button.setAttribute("aria-pressed", String(isFavorite));
+
+    button.setAttribute(
+      "aria-label",
+      isFavorite
+        ? `Usuń ${productName} z ulubionych`
+        : `Dodaj ${productName} do ulubionych`,
+    );
+
+    button.title = isFavorite ? "Usuń z ulubionych" : "Dodaj do ulubionych";
+  }
+
+  document.querySelectorAll(".favorite-btn").forEach((button) => {
     updateFavoriteButton(button);
+
+    button.addEventListener("click", () => {
+      const productId = button.dataset.productId;
+
+      if (!productId) return;
+
+      if (favorites.has(productId)) {
+        favorites.delete(productId);
+      } else {
+        favorites.add(productId);
+      }
+
+      try {
+        localStorage.setItem(storageKey, JSON.stringify([...favorites]));
+      } catch (error) {
+        console.warn("Nie udało się zapisać ulubionych.", error);
+      }
+
+      updateFavoriteButton(button);
+    });
   });
+
+  // ==========================================
+  // INICJALIZACJA
+  // ==========================================
+
+  updateCatalog();
 });

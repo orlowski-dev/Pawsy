@@ -444,6 +444,30 @@
   outline-offset: 3px;
 }
 
+.filter-section fieldset {
+  border: none;
+}
+
+.filter-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.filter-option input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  accent-color: #ff6a00;
+}
+
+.product-card[hidden],
+.empty-products[hidden] {
+  display: none !important;
+}
+
 /* =====================================
    RESPONSYWNOŚĆ
 ===================================== */
