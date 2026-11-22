@@ -235,58 +235,116 @@ document.addEventListener("DOMContentLoaded", () => {
     cart.forEach((product) => {
       const row = el("article", "cart-item");
 
-      row.appendChild(createImage(product, "cart-item-image"));
+      // Zdjęcie produktu
+      const image = createImage(product, "cart-item-image");
+      row.appendChild(image);
 
+      // Informacje o produkcie
       const info = el("div", "cart-item-info");
 
       info.appendChild(el("h3", "cart-item-name", product.name));
 
       info.appendChild(
         el(
-          "p",
+          "strong",
           "cart-item-price",
-          `${currency.format(product.priceGrosze / 100)} / szt.`,
+          currency.format(product.priceGrosze / 100),
         ),
       );
 
+      info.appendChild(el("span", "cart-unit-label", "Cena za sztukę"));
+      const lineTotalGrosze = product.priceGrosze * product.quantity;
+      const lineTotal = el("div", "cart-item-total");
+
+      lineTotal.appendChild(
+        el(
+          "span",
+          "cart-item-total-label",
+          `Razem za ${product.quantity} szt.`,
+        ),
+      );
+
+      lineTotal.appendChild(
+        el(
+          "strong",
+          "cart-item-total-value",
+          currency.format(lineTotalGrosze / 100),
+        ),
+      );
+
+      info.appendChild(lineTotal);
+      // Sterowanie ilością
+      const controls = el("div", "cart-item-actions");
+
       const quantity = el("div", "cart-quantity");
 
-      quantity.appendChild(actionButton("−", "decrease", product.id));
-
-      quantity.appendChild(el("span", "", String(product.quantity)));
-
-      quantity.appendChild(actionButton("+", "increase", product.id));
-
-      info.appendChild(quantity);
-
-      const actions = el("div", "cart-item-actions");
-
-      const lineTotal = product.priceGrosze * product.quantity;
-
-      actions.appendChild(
-        el("strong", "cart-line-total", currency.format(lineTotal / 100)),
+      const decrease = actionButton("−", "decrease", product.id);
+      decrease.setAttribute(
+        "aria-label",
+        `Zmniejsz ilość produktu ${product.name}`,
       );
 
-      actions.appendChild(
-        actionButton("Usuń", "remove-cart", product.id, "remove-item"),
+      const amount = el(
+        "span",
+        "cart-quantity-value",
+        String(product.quantity),
       );
 
-      row.append(info, actions);
+      const increase = actionButton("+", "increase", product.id);
+      increase.setAttribute(
+        "aria-label",
+        `Zwiększ ilość produktu ${product.name}`,
+      );
+
+      quantity.append(decrease, amount, increase);
+
+      // Usuwanie pojedynczego produktu
+      const remove = actionButton("", "remove-cart", product.id, "remove-item");
+
+      remove.setAttribute("aria-label", `Usuń ${product.name} z koszyka`);
+      remove.title = "Usuń produkt";
+
+      const svgNS = "http://www.w3.org/2000/svg";
+      const icon = document.createElementNS(svgNS, "svg");
+
+      icon.setAttribute("viewBox", "0 0 24 24");
+      icon.setAttribute("width", "20");
+      icon.setAttribute("height", "20");
+      icon.setAttribute("fill", "none");
+      icon.setAttribute("stroke", "currentColor");
+      icon.setAttribute("stroke-width", "1.8");
+      icon.setAttribute("stroke-linecap", "round");
+      icon.setAttribute("stroke-linejoin", "round");
+      icon.setAttribute("aria-hidden", "true");
+
+      const path = document.createElementNS(svgNS, "path");
+      path.setAttribute(
+        "d",
+        "M3 6h18M8 6V4h8v2M5 6l1 14h12l1-14M10 10v6M14 10v6",
+      );
+
+      icon.appendChild(path);
+      remove.appendChild(icon);
+
+      controls.append(quantity, remove);
+
+      row.append(info, controls);
       container.appendChild(row);
     });
 
-    const quantity = cart.reduce((sum, p) => sum + p.quantity, 0);
+    const quantity = cart.reduce((sum, product) => sum + product.quantity, 0);
 
     const totalGrosze = cart.reduce(
-      (sum, p) => sum + p.priceGrosze * p.quantity,
+      (sum, product) => sum + product.priceGrosze * product.quantity,
       0,
     );
 
     const total = currency.format(totalGrosze / 100);
 
-    document.querySelector("#cart-item-count").textContent = `${quantity} szt.`;
+    document.querySelector("#cart-item-count").textContent = `(${quantity})`;
 
     document.querySelector("#cart-subtotal").textContent = total;
+
     document.querySelector("#cart-total").textContent = total;
   }
 
@@ -357,7 +415,31 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#favorites-item-count").textContent =
       `${favorites.length} produktów`;
   }
+  function clearCart() {
+    if (cart.length === 0) return;
 
+    const confirmed = confirm(
+      "Czy na pewno chcesz usunąć wszystkie produkty z koszyka?",
+    );
+
+    if (!confirmed) return;
+
+    cart = [];
+    saveCart();
+  }
+
+  function clearFavorites() {
+    if (favorites.length === 0) return;
+
+    const confirmed = confirm(
+      "Czy na pewno chcesz usunąć wszystkie ulubione produkty?",
+    );
+
+    if (!confirmed) return;
+
+    favorites = [];
+    saveFavorites();
+  }
   // ========================================
   // OBSŁUGA KLIKNIĘĆ
   // ========================================
@@ -366,6 +448,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const target = event.target;
 
     if (!(target instanceof Element)) return;
+    // Usuwanie wszystkich produktów z koszyka
+    if (target.closest("#clear-cart")) {
+      clearCart();
+      return;
+    }
+
+    // Usuwanie wszystkich ulubionych produktów
+    if (target.closest("#clear-favorites")) {
+      clearFavorites();
+      return;
+    }
 
     // Dodawanie z katalogu do koszyka
     const cartButton = target.closest(".add-to-cart");
@@ -377,7 +470,20 @@ document.addEventListener("DOMContentLoaded", () => {
       if (product) {
         addToCart(product);
 
+        cartButton.classList.remove("is-added");
+
+        // Ponowne uruchomienie animacji
+        void cartButton.offsetWidth;
+
+        cartButton.classList.add("is-added");
         cartButton.title = "Dodano do koszyka";
+
+        clearTimeout(cartButton.cartAnimationTimeout);
+
+        cartButton.cartAnimationTimeout = setTimeout(() => {
+          cartButton.classList.remove("is-added");
+          cartButton.title = "Dodaj do koszyka";
+        }, 900);
       }
 
       return;

@@ -1,12 +1,21 @@
-
 @{
     ViewData["Title"] = "Koszyk";
 }
 
 <section class="shop-page" id="cart-page">
 
+    <div class="cart-back-mobile">
+        <a asp-controller="Product" asp-action="Index">
+            <span aria-hidden="true">‹</span>
+            Koszyk
+        </a>
+    </div>
+
     <p class="shop-breadcrumb">
-        Strona główna / Koszyk
+        <a asp-controller="Home" asp-action="Index">
+            Strona główna
+        </a>
+        / Koszyk
     </p>
 
     <div class="shop-page-heading">
@@ -14,40 +23,54 @@
         <p>Sprawdź produkty, które wybrałeś.</p>
     </div>
 
+    <!-- PUSTY KOSZYK -->
     <div id="cart-empty" class="shop-empty" hidden>
-        <span class="icon akar-icons--cart"
-              aria-hidden="true"></span>
 
         <h2>Twój koszyk jest pusty</h2>
         <p>Znajdź coś wyjątkowego dla swojego pupila.</p>
 
-        <a asp-controller="Product"
-           asp-action="Index"
-           class="shop-primary-link">
+        <a asp-controller="Product" asp-action="Index" class="shop-primary-link">
             Przeglądaj produkty
         </a>
+
     </div>
 
+    <!-- KOSZYK Z PRODUKTAMI -->
     <div id="cart-content" class="cart-layout" hidden>
 
-        <div class="cart-products">
+        <section class="cart-products">
 
             <div class="shop-section-heading">
-                <h2>Produkty</h2>
-                <span id="cart-item-count"></span>
+
+                <div class="shop-section-title">
+                    <h2>Produkty</h2>
+                    <span id="cart-item-count"></span>
+                </div>
+
+                <button type="button" id="clear-cart" class="clear-all-btn">
+
+                    <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8"
+                         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M3 6h18M8 6V4h8v2M5 6l1 14h12l1-14M10 10v6M14 10v6" />
+                    </svg>
+
+                    <span>Usuń wszystkie</span>
+                </button>
+
             </div>
 
-            <div id="cart-items"></div>
+            <div id="cart-items" class="cart-items"></div>
 
-        </div>
+        </section>
 
+        <!-- PODSUMOWANIE -->
         <aside class="cart-summary">
 
             <h2>Podsumowanie</h2>
 
             <div class="summary-row">
                 <span>Wartość produktów</span>
-                <span id="cart-subtotal">0,00 zł</span>
+                <strong id="cart-subtotal">0,00 zł</strong>
             </div>
 
             <div class="summary-row">
@@ -58,28 +81,25 @@
             <div class="summary-divider"></div>
 
             <div class="summary-row summary-total">
-                <strong>Łącznie</strong>
+                <strong>Do zapłaty*</strong>
                 <strong id="cart-total">0,00 zł</strong>
             </div>
 
             <p class="shipping-info">
-                Koszt dostawy zostanie ustalony
-                podczas finalizacji zamówienia.
+                *Kwota nie obejmuje kosztów dostawy.
             </p>
 
-            <button type="button"
-                    class="checkout-btn"
-                    disabled>
+            <button type="button" class="checkout-btn" disabled>
                 Przejdź do kasy
             </button>
 
-            <a asp-controller="Product"
-               asp-action="Index"
-               class="continue-shopping">
-                Kontynuuj zakupy
-            </a>
-
         </aside>
 
+        <a asp-controller="Product" asp-action="Index" class="continue-shopping">
+            <span aria-hidden="true">‹</span>
+            Kontynuuj zakupy
+        </a>
+
     </div>
+
 </section>

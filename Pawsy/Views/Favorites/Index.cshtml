@@ -1,4 +1,3 @@
-
 @{
     ViewData["Title"] = "Ulubione";
 }
@@ -15,8 +14,7 @@
     </div>
 
     <div id="favorites-empty" class="shop-empty" hidden>
-        <span class="icon akar-icons--heart"
-              aria-hidden="true"></span>
+        <span class="icon akar-icons--heart" aria-hidden="true"></span>
 
         <h2>Nie masz jeszcze ulubionych produktów</h2>
 
@@ -25,9 +23,7 @@
             aby zapisać go na później.
         </p>
 
-        <a asp-controller="Product"
-           asp-action="Index"
-           class="shop-primary-link">
+        <a asp-controller="Product" asp-action="Index" class="shop-primary-link">
             Odkryj produkty
         </a>
     </div>
@@ -35,8 +31,15 @@
     <div id="favorites-content" hidden>
 
         <div class="shop-section-heading">
-            <h2>Zapisane produkty</h2>
-            <span id="favorites-item-count"></span>
+            <div class="shop-section-title">
+                <h2>Zapisane produkty</h2>
+                <span id="favorites-item-count"></span>
+            </div>
+
+            <button type="button" id="clear-favorites" class="clear-all-btn">
+                <span class="icon akar-icons--trash-can" aria-hidden="true"></span>
+                Usuń wszystkie
+            </button>
         </div>
 
         <div class="favorites-grid" id="favorites-items">

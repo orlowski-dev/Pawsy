@@ -183,6 +183,36 @@
   color: #ff6a00;
 }
 
+.favorite-btn {
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.favorite-btn:hover {
+  transform: scale(1.1);
+  background-color: #fff1e7;
+}
+
+.favorite-btn:active {
+  transform: scale(0.9);
+}
+
+.favorite-btn.is-favorite {
+  color: #ff6a00;
+}
+
+.favorite-btn.is-favorite .favorite-heart {
+  fill: #ff6a00;
+  stroke: #ff6a00;
+}
+
+.favorite-btn:focus-visible {
+  outline: 3px solid #ff6a00;
+  outline-offset: 3px;
+}
+
 /* Informacje o produkcie */
 
 .product-info {
@@ -220,6 +250,134 @@
   font-size: 21px;
   font-weight: 800;
   white-space: nowrap;
+}
+
+/* Przycisk dodawania do koszyka */
+
+.add-to-cart {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: #111111;
+  color: #ffffff;
+
+  cursor: pointer;
+  overflow: visible;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.add-to-cart:hover {
+  background: #ff6a00;
+  transform: translateY(-2px);
+}
+
+.add-to-cart:active {
+  transform: scale(0.9);
+}
+
+.add-to-cart:focus-visible {
+  outline: 3px solid #ff6a00;
+  outline-offset: 3px;
+}
+
+/* Animacja po dodaniu produktu */
+
+.add-to-cart.is-added {
+  background: #ff6a00;
+  animation: cart-bounce 0.5s ease;
+}
+
+/* Pomarańczowy impuls wokół przycisku */
+
+.add-to-cart.is-added::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+
+  border: 2px solid #ff6a00;
+  border-radius: 16px;
+
+  pointer-events: none;
+  animation: cart-pulse 0.6s ease-out forwards;
+}
+
+@keyframes cart-bounce {
+  0% {
+    transform: scale(1);
+  }
+
+  30% {
+    transform: scale(0.82);
+  }
+
+  60% {
+    transform: scale(1.12);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes cart-pulse {
+  0% {
+    opacity: 0.9;
+    transform: scale(0.85);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}
+
+/* Potwierdzenie dodania */
+
+.add-to-cart .cart-check {
+  position: absolute;
+  opacity: 0;
+  transform: scale(0.5);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.add-to-cart .cart-icon {
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.add-to-cart.is-added .cart-icon {
+  opacity: 0;
+  transform: scale(0.5);
+}
+
+.add-to-cart.is-added .cart-check {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .add-to-cart,
+  .add-to-cart::after,
+  .add-to-cart .cart-icon,
+  .add-to-cart .cart-check {
+    animation: none !important;
+    transition: none !important;
+  }
 }
 
 .add-to-cart {
