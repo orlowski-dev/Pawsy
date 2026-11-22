@@ -1,0 +1,47 @@
+
+@{
+    ViewData["Title"] = "Ulubione";
+}
+
+<section class="shop-page" id="favorites-page">
+
+    <p class="shop-breadcrumb">
+        Strona główna / Ulubione
+    </p>
+
+    <div class="shop-page-heading">
+        <h1>Twoje ulubione</h1>
+        <p>Produkty, które wpadły Ci w oko.</p>
+    </div>
+
+    <div id="favorites-empty" class="shop-empty" hidden>
+        <span class="icon akar-icons--heart"
+              aria-hidden="true"></span>
+
+        <h2>Nie masz jeszcze ulubionych produktów</h2>
+
+        <p>
+            Kliknij serduszko przy produkcie,
+            aby zapisać go na później.
+        </p>
+
+        <a asp-controller="Product"
+           asp-action="Index"
+           class="shop-primary-link">
+            Odkryj produkty
+        </a>
+    </div>
+
+    <div id="favorites-content" hidden>
+
+        <div class="shop-section-heading">
+            <h2>Zapisane produkty</h2>
+            <span id="favorites-item-count"></span>
+        </div>
+
+        <div class="favorites-grid" id="favorites-items">
+        </div>
+
+    </div>
+
+</section>

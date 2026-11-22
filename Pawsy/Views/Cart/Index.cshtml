@@ -1,0 +1,85 @@
+
+@{
+    ViewData["Title"] = "Koszyk";
+}
+
+<section class="shop-page" id="cart-page">
+
+    <p class="shop-breadcrumb">
+        Strona główna / Koszyk
+    </p>
+
+    <div class="shop-page-heading">
+        <h1>Twój koszyk</h1>
+        <p>Sprawdź produkty, które wybrałeś.</p>
+    </div>
+
+    <div id="cart-empty" class="shop-empty" hidden>
+        <span class="icon akar-icons--cart"
+              aria-hidden="true"></span>
+
+        <h2>Twój koszyk jest pusty</h2>
+        <p>Znajdź coś wyjątkowego dla swojego pupila.</p>
+
+        <a asp-controller="Product"
+           asp-action="Index"
+           class="shop-primary-link">
+            Przeglądaj produkty
+        </a>
+    </div>
+
+    <div id="cart-content" class="cart-layout" hidden>
+
+        <div class="cart-products">
+
+            <div class="shop-section-heading">
+                <h2>Produkty</h2>
+                <span id="cart-item-count"></span>
+            </div>
+
+            <div id="cart-items"></div>
+
+        </div>
+
+        <aside class="cart-summary">
+
+            <h2>Podsumowanie</h2>
+
+            <div class="summary-row">
+                <span>Wartość produktów</span>
+                <span id="cart-subtotal">0,00 zł</span>
+            </div>
+
+            <div class="summary-row">
+                <span>Dostawa</span>
+                <span>Do ustalenia</span>
+            </div>
+
+            <div class="summary-divider"></div>
+
+            <div class="summary-row summary-total">
+                <strong>Łącznie</strong>
+                <strong id="cart-total">0,00 zł</strong>
+            </div>
+
+            <p class="shipping-info">
+                Koszt dostawy zostanie ustalony
+                podczas finalizacji zamówienia.
+            </p>
+
+            <button type="button"
+                    class="checkout-btn"
+                    disabled>
+                Przejdź do kasy
+            </button>
+
+            <a asp-controller="Product"
+               asp-action="Index"
+               class="continue-shopping">
+                Kontynuuj zakupy
+            </a>
+
+        </aside>
+
+    </div>
+</section>

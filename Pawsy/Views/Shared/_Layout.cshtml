@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/icons.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/auth.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/shop.css" asp-append-version="true" />
 </head>
 
 <body>
@@ -59,9 +60,14 @@
                                 <span class="m-only">profil</span>
                             </a>
                             
-                            <a asp-controller="Home" asp-action="Index" class="nav-elem">
+                            <a asp-controller="Favorites" asp-action="Index" class="nav-elem shop-header-link"
+                               aria-label="Przejdź do ulubionych">
+
                                 <span class="icon akar-icons--heart" aria-hidden="true"></span>
+
                                 <span class="m-only">ulubione</span>
+
+                                <span class="shop-header-count" id="favorites-header-count" hidden>0</span>
                             </a>
                         </nav>
                     </div>
@@ -72,9 +78,12 @@
                     <span class="sr-only">Wyszukaj w sklepie</span>
                     <span class="icon lucide--search" aria-hidden="true"></span>
                 </button>
-                <a asp-controller="Home" asp-action="Index" class="icon-button">
+                <a asp-controller="Cart" asp-action="Index" class="icon-button shop-header-link"
+                   aria-label="Przejdź do koszyka">
+
                     <span class="icon akar-icons--cart" aria-hidden="true"></span>
-                    <span class="sr-only">koszyk</span>
+
+                    <span class="shop-header-count" id="cart-header-count" hidden>0</span>
                 </a>
                 <button class="icon-button" id="open-mobile-menu-btn">
                     <span class="sr-only">Otwórz menu</span>
@@ -90,6 +99,7 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/nav-header.js"></script>
+    <script src="~/js/shop.js" asp-append-version="true"></script>
 </body>
 
 </html>
