@@ -5,7 +5,7 @@ using Pawsy.Models;
 namespace Pawsy.Data;
 
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-    : IdentityDbContext(options)
+    : IdentityDbContext<AppUser>(options)
 {
     public DbSet<ProductCategory>? ProductCategories => Set<ProductCategory>();
     public DbSet<ProductSubcategory>? ProductSubcategories => Set<ProductSubcategory>();
