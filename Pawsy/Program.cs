@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Pawsy.Data;
 using Pawsy.Models;
@@ -13,14 +12,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder
-    .Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    .Services.AddDefaultIdentity<AppUser>(options =>
+    {
+        options.SignIn.RequireConfirmedAccount = false;
+        options.User.RequireUniqueEmail = true;
+    })
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Auth/Login";
-    options.AccessDeniedPath = "/Auth/AccessDenied";
 });
 
 var app = builder.Build();
@@ -45,10 +47,19 @@ app.UseAuthorization();
 app.MapStaticAssets();
 
 app.MapControllerRoute(
-    name: "auth",
-    pattern: "Auth/{action=Login}",
-    defaults: new { controller = "Account" }
-);
+        name: "authLogin",
+        pattern: "Auth/{action=Login}",
+        defaults: new { controller = "Account" }
+    )
+    .WithStaticAssets();
+
+app.MapControllerRoute(
+        name: "userProfile",
+        pattern: "UserProfile/{action=Index}",
+        defaults: new { controller = "UserProfile" }
+    )
+    .WithStaticAssets()
+    .RequireAuthorization();
 
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
