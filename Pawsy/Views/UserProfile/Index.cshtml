@@ -1,0 +1,15 @@
+@{
+    ViewData["Title"] = "Twoje konto";
+}
+@model Pawsy.ViewModels.UserProfileViewModel
+
+<div>
+    <h1>Witaj, @Model.FullName!</h1>
+    <p>Email: @Model.Email</p>
+    <p>Nazwa użytkownika: @Model.Username</p>
+    <p>Id użytkownika: @Model.Id</p>
+    <form method="POST" asp-controller="Account" asp-action="Logout">
+        @Html.AntiForgeryToken()
+        <input type="submit" value="Wyloguj się" class="pill">
+    </form>
+</div>

@@ -14,7 +14,7 @@ public sealed class Product
     public decimal Price { get; set; }
     public required ProductCategory Category { get; set; }
     public required ProductSubcategory Subcategory { get; set; }
-    public IList<string> Images { get; } = [];
+    public IList<string> Images { get; set; } = [];
     public decimal? SalePrice { get; set; }
 
     [NotMapped]

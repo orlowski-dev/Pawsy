@@ -1,0 +1,50 @@
+@{
+    ViewData["Title"] = "Utwórz nowe konto";
+}
+
+<div class="auth-container">
+    <div class="content">
+        <div class="content-text">
+            <h1>Utwórz nowe konto</h1>
+        </div>
+        <div class="form-area">
+            <form asp-controller="Account" asp-action="Register" method="POST">
+                @Html.AntiForgeryToken()
+                @if (ViewData.ModelState.Count > 0)
+                {
+                    <div asp-validation-summary="ModelOnly" class="form-errors"></div>
+                }
+                <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
+
+                <div class="custom-input">
+                    <span class="icon lucide--user" aria-hidden="true"></span>
+                    <input type="text" id="full-name" name="fullname" placeholder="Imię i nazwisko" required
+                           minlength="3" maxlength="64">
+                </div>
+                <div class="custom-input">
+                    <span class="icon lucide--user" aria-hidden="true"></span>
+                    <input type="text" id="username-input" name="username" placeholder="Nazwa użytkownika" required
+                           minlength="3" maxlength="16">
+                </div>
+                <div class="custom-input">
+                    <span class="icon lucide--mail" aria-hidden="true"></span>
+                    <input type="email" id="email-input" name="email" placeholder="Adres email" required minlength="3"
+                           maxlength="128">
+                </div>
+                <div class="custom-input">
+                    <span class="icon lucide--lock" aria-hidden="true"></span>
+                    <input type="password" id="password-input" name="password" placeholder="Hasło" required
+                           minlength="8" maxlength="32">
+                </div>
+                <div style="text-align: center;">
+                    <input type="submit" value="Utwórz konto" class="pill">
+                </div>
+            </form>
+        </div>
+        <div style="text-align: center; margin-top: 24px;">
+            <a asp-controller="Account" asp-action="Login">
+                Masz już konto? Przejdź do logowania.
+            </a>
+        </div>
+    </div>
+</div>
